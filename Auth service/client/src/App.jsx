@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Button } from './components/ui/button'
 import { Input } from './components/ui/input'
+<<<<<<< HEAD
 import CustomerSignup from './pages/CustomerSignup'
 import CustomerLogin from './pages/CustomerLogin'
 import OrgSignup from './pages/OrgSignup'
@@ -13,11 +14,15 @@ import LocSearch from './components/ui/LocSearch'
 import BranchLogin from './pages/BranchLogin'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+=======
+import Login from './pages/Login'
+>>>>>>> ee2f33ecf3332e5b53600d6b7407745f50e54e7c
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+<<<<<<< HEAD
     <Router>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {/* Navbar */}
@@ -57,8 +62,19 @@ function App() {
  <BranchLogin/>
  </div>
  </div> */}
+=======
+<div className='grid grid-cols-1 justify-content-center'>
+  <div  className='flex items-center justify-center '>
+ <Login/>
+ </div>
+ </div>
+>>>>>>> ee2f33ecf3332e5b53600d6b7407745f50e54e7c
    </>
   )
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App
+>>>>>>> ee2f33ecf3332e5b53600d6b7407745f50e54e7c
