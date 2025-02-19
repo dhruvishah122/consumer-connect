@@ -16,7 +16,7 @@ export function BranchLogin({
 }) {
   return (
     (
-    <div className={cn(" w-320px h-500px flex flex-col gap-6 mt-24 ", className)} {...props}>
+    <div className={cn(" w-320px h-500px flex flex-col gap-6 mt-10 ", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className={cn("text-2xl")}>Login</CardTitle>

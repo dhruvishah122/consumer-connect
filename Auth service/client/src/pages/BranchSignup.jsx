@@ -17,8 +17,8 @@ import {
     SelectValue,
   } from "@/components/ui/select"
   
-  import addressSearch from "../components/ui/LocSearch"
-import LocSearch from "../components/ui/LocSearch"
+  // import addressSearch from "../components/ui/LocSearch"
+// import LocSearch from "../components/ui/LocSearch"
 import MapWithGeocoder from "../components/ui/MapWithGeocoder"
 import MyComponent from "../components/ui/MyComponent"
 export function BranchSignup({
@@ -27,7 +27,7 @@ export function BranchSignup({
 }) {
   return (
     (
-    <div className={cn(" w-650px h-400px flex flex-col gap-6 mt-24 ", className)} {...props}>
+    <div className={cn(" w-650px h-350px flex flex-col gap-6 mt-10 ", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className={cn("text-2xl")}>Signup</CardTitle>

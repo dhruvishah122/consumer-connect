@@ -11,33 +11,22 @@
     "build:css": "tailwindcss build global.css -o output.css"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@mapbox/mapbox-gl-geocoder": "^5.0.3",
     "@mapbox/search-js-react": "^1.0.0",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@rottitime/react-address-autocomplete": "^0.0.5",
-=======
-    "@radix-ui/react-label": "^2.1.2",
-    "@radix-ui/react-slot": "^1.1.2",
->>>>>>> ee2f33ecf3332e5b53600d6b7407745f50e54e7c
     "@tailwindcss/vite": "^4.0.6",
     "class-variance-authority": "^0.7.1",
     "client": "file:",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
-<<<<<<< HEAD
     "mapbox-gl": "^3.10.0",
-    "npx": "^10.2.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.5",
-=======
     "npx": "^10.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
->>>>>>> ee2f33ecf3332e5b53600d6b7407745f50e54e7c
+    "react-router-dom": "^7.1.5",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7"
   },
