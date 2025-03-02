@@ -51,7 +51,7 @@ export function BranchSignup({
                 </div>
                 <div className="grid gap-2">
             <div className="flex items-center">
-                  <Label className={cn("text-xl")} htmlFor="email" >Location</Label></div>
+                  <Label className={cn("text-xl")} htmlFor="email">Location</Label></div>
                 <MyComponent/>                  
                 </div>
             <div className="grid gap-2">
