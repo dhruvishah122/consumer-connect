@@ -1,14 +1,30 @@
+// {
+//     "compilerOptions": {
+//       "jsx": "react",
+//       // ...
+//       "baseUrl": ".",
+//       "paths": {
+//         "@/*": [
+//           "./src/*"
+//         ]
+//       }
+//       // ...
+//     }
+//   }
+
+// {
+// "compilerOptions": {
+//   "module": "CommonJS",
+//   "outDir": "./dist",
+//   "target": "ESNext",
+//   "strict": true
+// }
+// }
 {
-    "compilerOptions": {
-      "jsx": "react",
-      // ...
-      "baseUrl": ".",
-      "paths": {
-        "@/*": [
-          "./src/*"
-        ]
-      }
-      // ...
-    }
-  }
-  
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
+
