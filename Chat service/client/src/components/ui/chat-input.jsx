@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { Textarea } from "./textarea";
+import { cn } from "../../lib/utils";
 
 const ChatInput = forwardRef(({ className, ...props }, ref) => (
   <Textarea

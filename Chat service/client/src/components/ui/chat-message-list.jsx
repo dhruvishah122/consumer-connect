@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { ArrowDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useAutoScroll } from "@/components/ui/hooks/useAutoScroll";
+import { Button } from "./button";
+import { useAutoScroll } from "./hooks/useAutoScroll";
 
 const ChatMessageList = forwardRef(({ className, children, smooth = false, ...props }, _ref) => {
   const {

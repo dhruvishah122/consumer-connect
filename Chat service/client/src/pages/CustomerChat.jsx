@@ -6,12 +6,12 @@ import { Tooltip, TooltipTrigger, TooltipContent,TooltipProvider} from "@/compon
  // Get chatID from URL
 import {
   Card, CardDescription, CardFooter, CardHeader, CardTitle
-} from "@/components/ui/card";
-import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from "@/components/ui/chat-bubble";
-import ChatMessageList from "@/components/ui/chat-message-list";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import ChatInput from "@/components/ui/chat-input";
-import { Button } from "@/components/ui/button";
+} from "../components/ui/card";
+import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from "../components/ui/chat-bubble";
+import ChatMessageList from "../components/ui/chat-message-list";
+import { Avatar, AvatarImage } from "../components/ui/avatar";
+import ChatInput from "../components/ui/chat-input";
+import { Button } from "../components/ui/button";
 import { format, parseISO } from "date-fns"; 
 const socket = io("http://localhost:8080");
 // import * as CryptoJS from "crypto-js";

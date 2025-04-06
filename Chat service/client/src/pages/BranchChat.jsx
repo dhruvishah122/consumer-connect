@@ -122,7 +122,7 @@ export function BranchChat() {
   <div className="flex flex-col">
     <div className="flex space-x-3 items-center w-full">
       <Avatar className="w-20 h-20">
-        <AvatarImage src="https://cdn0.iconfinder.com/data/icons/3d-sales-and-commerce-illustration-set/512/Customer_Satisfaction.png" />
+        <AvatarImage src="https://img.freepik.com/free-psd/3d-female-character-avatar-isolated_239978-135.jpg" />
       </Avatar>
       <CardTitle className="text-left text-2xl">{"Dhruvi"}</CardTitle>
     </div>

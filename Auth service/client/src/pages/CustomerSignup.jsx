@@ -48,7 +48,7 @@ export function CustomerSignup({
                 <div className="grid gap-2">
             <div className="flex items-center">
                   <Label className={cn("text-xl")} htmlFor="email" >Location</Label></div>
-                <MyComponent/>                  
+                 <MyComponent/>                  
                 </div>
                 <div className="grid w-full max-w-sm  gap-1.5">
                 <div className="flex items-center">

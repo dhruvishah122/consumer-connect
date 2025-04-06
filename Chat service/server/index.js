@@ -75,7 +75,7 @@ mongoose.connect("mongodb+srv://maahivaghela05:Ma82810La@consumer-connect.bvrrf.
 
   socket.on("sendMessage", async (data) => {
     const { chatID, sender, message } = data;
-    
+    console.log(message);
     io.to(chatID).emit("receiveMessage", { sender, message, timestamp: new Date().toISOString() });
 
     // Save message to MongoDB (Assuming you have a Chat model)
