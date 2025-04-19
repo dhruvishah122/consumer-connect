@@ -8,12 +8,13 @@ import { ChatSidebarBranch } from "./ChatSidebarBranch";
 export default function Layout({ children }) {
   return (
     <SidebarProvider>
-      <ChatSidebar />
       <Router>
       <Routes>
-            <Route path="/customer/:chatID" element={<CustomerChat />} />
+      <Route path="/:email/customer" element={ <ChatSidebar />} />
+      <Route path="/:privateID/branch" element={ <ChatSidebarBranch />} />
+            <Route path=":email/customer/:chatID" element={<CustomerChat />} />
             {/* Add other routes here */}
-            <Route path="/branch/:chatID" element={<BranchChat />} />
+            <Route path=":privateID/branch/:chatID" element={<BranchChat />} />
             {/* Add other routes here */}
           </Routes>
           </Router>

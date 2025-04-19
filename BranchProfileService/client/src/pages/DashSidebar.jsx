@@ -8,6 +8,8 @@ import Chat from "./chat";
 import Layout from "./Layout";
 import {ChatSidebar} from "../../node_modules/consumer-chat-service/client/src/pages/ChatSidebar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserTable from "./Status";
+import PostList from "./PostList";
 export default function Page() {
   return (
     
@@ -29,9 +31,33 @@ export default function Page() {
         {/* ✅ Centered Post Section */}
         
       </div>
+      
       <div className="flex mt-32 ml-[500px] items-center  w-[50%] fixed top-3  ">
+        
           <Post className="shadow-lg shadow-inner border-2 border-gray-390"/>
         </div>
+        <Routes>
+      <Route
+        path="/status"
+        element={
+          <div className="flex justify-center mt-32 w-full fixed top-3">
+            <div className="w-[900px] h-[850px]">
+              <UserTable />
+            </div>
+          </div>
+        }
+      />
+        <Route
+              path="/postList"
+              element={
+                <div className="flex justify-center mt-32 w-full fixed top-3">
+                  <div className="w-[900px] h-[850px]">
+                    <PostList />
+                  </div>
+                </div>
+              }
+            />
+    </Routes>
         <div className="flex mt-[400px] ml-[200px] items-center h-[30%] w-[100%]  ">
            {/* className="flex mt-[400px] ml-[200px] items-center h-[30px] w-[100%]  "> */}
           {/* <Routes>
@@ -43,6 +69,7 @@ export default function Page() {
           <Layout/>
         </div>
         {/* <div className="flex mt-32 ml-[700px] items-center  fixed top-3 "><Chat/></div> */}
+
         
     </div>
    

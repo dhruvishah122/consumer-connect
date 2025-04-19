@@ -77,6 +77,8 @@ const runConsumer = async () => {
   const db = client.db(DB_NAME);
   const postsCollection = db.collection(COLLECTION_NAME);
   const userDb=client.db("Authentication").collection("csignups");
+  const branchDb=client.db("Authentication").collection("bsignups");
+
   const branchNotiDb =client.db("Notifications").collection("branchNotifications");
   const customerNotiDb =client.db("Notifications").collection("customerNotifications");
   await consumer.run({
@@ -93,22 +95,30 @@ const runConsumer = async () => {
           return;
         }
         const user1= await userDb.findOne({email:post.customerEmail});
+        const branch= await branchDb.findOne({privateID:post.privateID});
+        const bName=branch.branch_name
         // Create notification object
         console.log(post.customerEmail); console.log(user1);
         const notification = {
           id: postID,
+          email: post.customerEmail,
+          privateID:branch.privateID,
           title: user1.name || "customer",
           message: post.postText ? post.postText.substring(0, 50) + "..." : "new complaint registered",
-          time: new Date().toLocaleTimeString(),
+          time: new Date()
+          .toLocaleTimeString(),
           phone: user1.phone,
           status: "pending",
           read: false
         };
-       await branchNotiDb.insertOne(notification);
+     const ans=  await branchNotiDb.insertOne(notification);
+     console.log("my ans");
+     console.log(ans);
         const customerNotification={
           id:postID,
+          email:user1.email,
           title:'Complaint opened!',
-          message:'Your complaint is being processed by Dmart',
+          message:`Your complaint is being processed by ${bName}`,
           time: new Date().toLocaleTimeString(),
           status: "pending",
           read: false
@@ -117,8 +127,8 @@ const runConsumer = async () => {
         console.log("Sending notification:", notification);
 
         // Emit notification to frontend via WebSocket
-        io.emit("new-notification", notification);
-        io1.emit("new-notification", customerNotification);
+        io1.emit("new-notification", notification);
+        io.emit("new-notification", customerNotification);
 
       } catch (error) {
         console.error("Error processing message:", error);

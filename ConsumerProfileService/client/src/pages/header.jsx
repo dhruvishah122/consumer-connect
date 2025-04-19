@@ -2,16 +2,25 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom"; 
+import { Link, useParams } from "react-router-dom"; 
 import { SidebarProvider } from "../components/ui/sidebar";
 import SearchBar from "./search";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+
 import { DoPost } from "./DoPost";
 import { NotificationBell } from "./NotificationBell";
 import { LogOut } from "lucide-react";
+import {CompanyProfileWebsite} from "./feedbacks";
 const Header = ({ className, fixed, children, ...props }) => {
   const [offset, setOffset] = useState(0);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
+    // Extracting email from the URL path
+    const path = window.location.pathname; 
+    const emailFromPath = path.split("/")[1]; // Assuming email is the first segment in the path
+    setEmail(emailFromPath); // Setting email in state
+  }, []);  useEffect(() => {
     const onScroll = () => {
       setOffset(window.scrollY);
     };
@@ -44,12 +53,18 @@ const Header = ({ className, fixed, children, ...props }) => {
   <Link to="/overview" className="text-gray-500 hover:text-black transition-colors">Home</Link>
   <Link to="/customers" className="text-gray-500 hover:text-black transition-colors">Explore posts</Link>
   <Link to="/products" className="text-gray-500 hover:text-black transition-colors">Brands</Link>
-  <Link to="/settings" className="text-gray-500 hover:text-black transition-colors">Feedbacks</Link>
-</nav>
+  <Link to={`/${email}/feedbacks`} className="text-gray-500 hover:text-black transition-colors">
+  Feedbacks
+</Link></nav>
 </div>
 <div className="flex justify-end">
   <DoPost />&nbsp;&nbsp;
-  <NotificationBell className="h-[30px] w-[30px] mt-2"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <Routes>
+  <Route path=":email/*" element={<NotificationBell className="h-[30px] w-[30px] mt-2"/> } />
+  
+  </Routes>
+  {/* <NotificationBell className="h-[30px] w-[30px] mt-2"/>  */}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
   <SearchBar className="mt-[-3px]"/>&nbsp;&nbsp;&nbsp;&nbsp;
  <button> <LogOut className="text-gray"/>Logout</button>

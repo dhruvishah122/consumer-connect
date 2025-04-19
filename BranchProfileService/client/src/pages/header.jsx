@@ -6,8 +6,12 @@ import { Link } from "react-router-dom";
 import { SidebarProvider } from "../components/ui/sidebar";
 import SearchBar from "./search";
 import { DoPost } from "./DoPost";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+
 import { NotificationBell } from "./NotificationBell";
 import { LogOut } from "lucide-react";
+
+  
 const Header = ({ className, fixed, children, ...props }) => {
   const [offset, setOffset] = useState(0);
 
@@ -20,7 +24,18 @@ const Header = ({ className, fixed, children, ...props }) => {
 
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  const [branchID, setbranchID] = useState("");
 
+  useEffect(() => {
+    // Extracting email from the URL path
+    const path = window.location.pathname; 
+    const emailFromPath = path.split("/")[1]; // Assuming email is the first segment in the path
+    console.log(emailFromPath); // Log the extracted email
+    setbranchID(emailFromPath); // Setting email in state
+  }, []);  useEffect(() => {
+    const onScroll = () => {
+      setOffset(window.scrollY);
+    }});
   return (
     <header
     className={cn(
@@ -42,10 +57,12 @@ const Header = ({ className, fixed, children, ...props }) => {
       {/* Navigation Links (right after the separator) */}
       <nav className="flex gap-6 text-lg font-medium">
   <Link to="/overview" className="text-gray-500 hover:text-black transition-colors">Home</Link>
-  <Link to="/customers" className="text-gray-500 hover:text-black transition-colors">Explore posts</Link>
+  <Link to={`/${branchID}/postList`} className="text-gray-500 hover:text-black transition-colors"> Explore posts
+  </Link>
   <Link to="/products" className="text-gray-500 hover:text-black transition-colors">Brands</Link>
-  <Link to="/settings" className="text-gray-500 hover:text-black transition-colors">Feedbacks</Link>
-</nav>
+<Link to={`/${branchID}/feedbacks`} className="text-gray-500 hover:text-black transition-colors">
+  Feedbacks
+</Link></nav>
 </div>
 <div className="flex justify-end">
   <DoPost />&nbsp;&nbsp;

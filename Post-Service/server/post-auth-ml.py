@@ -192,7 +192,7 @@ def authenticate_bill(text, image_url):
     print(found)
     print(extracted_date,purchase_date)
     if found and extracted_date == purchase_date and store_name == text_values[1].lower():
-        return True, "Bill authenticated"
+        return True, matched_product
     
     return False, "Authentication failed"
 

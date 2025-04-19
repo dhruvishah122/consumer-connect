@@ -453,9 +453,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "../components/ui/button";
 import PostImg from "../assets/Girl-Img.jpg";
 import { UploadCloud } from "lucide-react";
-
+import {useParams} from 'react-router-dom'
 export default function PostCard() {
-  const [postText, setPostText] = useState("");
+  const {email} = useParams();
+  const [postText, setPostText] = useState("");``
   const [mentionResults, setMentionResults] = useState([]);
   const [attachments, setAttachments] = useState([]);
   const [privateID, setPrivateID] = useState(""); // 🔹 Store privateID
@@ -528,7 +529,7 @@ export default function PostCard() {
     formData.append("postText", postText);
     formData.append("privateID", privateID);
     attachments.forEach((file) => formData.append(`attachments`, file));
-
+    formData.append("email",email);
     try {
       const response = await fetch("http://localhost:5000/post-data", {
         method: "POST",

@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import { useParams } from "react-router-dom";
 import { Tooltip, TooltipTrigger, TooltipContent,TooltipProvider} from "@/components/ui/tooltip";
+import { useNavigate } from "react-router-dom"; // for redirect
+
  // Get chatID from URL
 import {
   Card, CardDescription, CardFooter, CardHeader, CardTitle
@@ -13,7 +15,7 @@ import { Avatar, AvatarImage } from "../components/ui/avatar";
 import ChatInput from "../components/ui/chat-input";
 import { Button } from "../components/ui/button";
 import { format, parseISO } from "date-fns"; 
-const socket = io("http://localhost:8080");
+const socket = io("http://localhost:8081");
 // import * as CryptoJS from "crypto-js";
 import CryptoJS from 'crypto-js';
 const secretKey = 'dhruvishah122';
@@ -51,11 +53,13 @@ export function CustomerChat() {
             }
           });
         };
-        
+            const { email } = useParams(); // 👈 This will give you 'dhruvishah116122@gmail.com'
+
   useEffect(() => {
     if (!chatID) return;
     socket.emit("joinChat", { chatID, userType });
-    fetch(`http://localhost:5173/customer/${chatID}`)
+
+    fetch(`http://localhost:5175/${email}/customer/${chatID}`)
     .then(res => res.json())
     .then(data => setMessages(data.messages))
     .catch(err => console.error("Error fetching messages:", err));
@@ -99,10 +103,58 @@ export function CustomerChat() {
     // setMessages((prev) => [...prev, messageData]);
     setNewMessage("");
   };
+  useEffect(() => {
+         const el = document.getElementById("branch-chat-container");
+         if (el) el.scrollIntoView({ behavior: "smooth" });
+       }, []);
+       const [branchName, setBranchName] = useState("Loading...");
 
+       useEffect(() => {
+         const fetchBranchName = async () => {
+           try {
+             const res = await fetch(`http://localhost:8081/chat/branchname/${chatID}`);
+             if (!res.ok) throw new Error("Failed to fetch chat");
+             const data = await res.json();
+             setBranchName(data.BranchName);
+           } catch (err) {
+             console.error("Error fetching branch name:", err);
+             setBranchName("Unavailable");
+           }
+         };
+       
+         if (chatID) fetchBranchName();
+       }, [chatID]);   
+
+       const [loading, setLoading] = useState(false);
+       const navigate = useNavigate();
+     
+       const handleCloseComplaint = async () => {
+         setLoading(true);
+     
+         try {
+           const res = await fetch(`http://localhost:8081/chat/${chatID}`, {
+             method: "DELETE",
+           });
+     
+           const data = await res.json();
+     
+           if (res.ok) {
+             alert("Complaint closed successfully!");
+             navigate(`http://localhost:5175/${email}`); // redirect after success
+           } else {
+             alert(`Error: ${data.message}`);
+           }
+         } catch (err) {
+           console.error("Error closing complaint:", err);
+           alert("Something went wrong.");
+         } finally {
+           setLoading(false);
+         }
+       };
+     
   return (
-    
-<Card className="w-[55%] ml-[10%] mt-[3%] h-[720px] overflow-auto">
+    <div id="branch-chat-container">
+<Card className="w-[1000px] mt-8  h-[720px] overflow-auto flex flex-col">
       <CardHeader className="sticky top-0 left-0 z-10 bg-white dark:bg-gray-900 border-b-2 border-black pb-2 shadow-md">
         <div>
         <div className="flex flex-col">
@@ -110,7 +162,11 @@ export function CustomerChat() {
             <Avatar className="w-20 h-20">
               <AvatarImage src="https://static.vecteezy.com/system/resources/previews/010/872/716/original/3d-customer-service-icon-png.png" />
             </Avatar>
-            <CardTitle className="text-left text-2xl">Dmart-Ahmedabad</CardTitle>
+            
+            <CardTitle className="text-left text-2xl">{branchName}</CardTitle>
+            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+            <Button className="bg-black text-white hover:bg-blue-500" onClick={handleCloseComplaint}>
+            Close Complaint </Button>
           </div>
           <CardDescription className="text-left">Customer Care</CardDescription>
         </div>
@@ -153,6 +209,7 @@ export function CustomerChat() {
 </CardFooter>
 
     </Card>
+    </div>
   );
 }
 

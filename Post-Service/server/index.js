@@ -1,6 +1,10 @@
 const express = require("express");
 const { exec } = require("child_process");
 const mongoose = require("mongoose");
+const { MongoClient } = require("mongodb");
+const client = new MongoClient("mongodb+srv://maahivaghela05:Ma82810La@consumer-connect.bvrrf.mongodb.net");
+const client1 = new MongoClient("mongodb+srv://maahivaghela05:Ma82810La@consumer-connect.bvrrf.mongodb.net");
+
 const cors = require("cors");
 const multer = require("multer");
 const fs = require("fs");
@@ -48,7 +52,8 @@ const Post = postDB.model("Post", new mongoose.Schema({
 async function savePost(privateID, customerEmail, postText, imageUrl, postAuthStatus) {
     try {
         const newPost = new Post({ privateID, customerEmail, postText, imageUrl, postAuthStatus });
-       const savedPost= await newPost.save();
+       const savedPost=
+        await newPost.save();
         console.log("✅ Post saved successfully!");
         return savedPost._id;
     } catch (error) {
@@ -89,8 +94,8 @@ async function authenticateBill(postText, uploadedUrl) {
                 const response = JSON.parse(data);
                 console.log("✅ ML Response:", response);
 
-                if (response.success) {
-                    resolve(true); // Return true if success
+                if (response.success) {//product,branchID,customerEmail,amount,status
+                    resolve(response); // Return true if success
                 } else {
                     resolve(false);
                 }
@@ -108,9 +113,49 @@ async function authenticateBill(postText, uploadedUrl) {
 }
 
 
+app.get('/:privateID/postListBranch', async (req, res) => {
+    const  privateID = req.params.privateID;
+    console.log(privateID);
+    if (!privateID) {
+      return res.status(400).json({ error: 'Missing email in query' });
+    }
+  
+    try {
+      await client1.connect();
+      const db = client1.db('PostService');
+      const collection = db.collection('posts');
+  
+      const posts = await collection.find({privateID: privateID }).toArray();
+      console.log(posts);
+      res.json(posts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 // ✅ POST endpoint with file upload
+app.get('/:email/postList', async (req, res) => {
+    const  email = req.params.email;
+    console.log(email);
+    if (!email) {
+      return res.status(400).json({ error: 'Missing email in query' });
+    }
+  
+    try {
+      await client1.connect();
+      const db = client1.db('PostService');
+      const collection = db.collection('posts');
+  
+      const posts = await collection.find({customerEmail: email }).toArray();
+      console.log(posts);
+      res.json(posts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 app.post("/post-data",upload.array("attachments"), async (req, res) => {
-    const { privateID, postText } = req.body;
+    const { privateID, postText,email } = req.body;
     const imagePath = req.file?.path;
   console.log(privateID);console.log(postText);console.log(imagePath);
     if (!privateID  || !postText) {
@@ -139,9 +184,21 @@ app.post("/post-data",upload.array("attachments"), async (req, res) => {
 const response=await authenticateBill(postText,uploadedUrls[0]);
 console.log("res in post-data fun");
         console.log(response);
-        const postID=await savePost(privateID, 'maahivaghela05@gmail.com', postText, uploadedUrls[0], response);
+        const postID=await savePost(privateID, email, postText, uploadedUrls[0], response.success);
         if(response){
+            await client.connect();
+          const db=  client.db("StatusService");
+          console.log(response);
            await triggerNotifier(postID);
+            const result = await db.collection("Status").insertOne({
+                privateID,
+                email,
+                product:response.message.Name,
+                amount:response.message.Amount,
+                status:"Active",
+                createdAt: new Date(),
+              });
+          
             return res.json({ success: true });
         }
         else{

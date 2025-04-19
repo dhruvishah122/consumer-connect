@@ -100,6 +100,7 @@
 //     </DropdownMenu>
 //   );
 // }
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -109,15 +110,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-
+import {useParams} from "react-router-dom";
 // Connect to the WebSocket server
-const socket = io("http://localhost:3001");
+const socket = io("http://localhost:3002");
 
 export function NotificationBell() {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
-
+  const {email}=useParams();
+  console.log(email);
   // Listen for incoming notifications from the backend
+  useEffect(() => {
+    // Fetch all notifications initially
+    fetch(`http://localhost:8083/customer/notifications/${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setNotifications(data);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch notifications:", err);
+      });
+  }, []);
+  
   useEffect(() => {
     socket.on("new-notification", (notification) => {
       setNotifications((prev) => [notification, ...prev]); // Add new notification to the list
@@ -126,11 +141,21 @@ export function NotificationBell() {
     return () => socket.off("new-notification");
   }, []);
 
-  const handleAccept = (id) => {
+  const handleAccept =async (id) => {
     setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.id === id ? { ...notification, status: "accepted", read: true } : notification
-      )
+      prev.map(async (notification) => {
+        if (notification.id === id) {
+          const response = await fetch(`http://localhost:8083/customer/notifications/accept/${notification.id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          // Update local state
+          return { ...notification, status: "accepted", read: true };
+        }
+        return notification;
+      })
     );
   };
 
@@ -172,7 +197,7 @@ export function NotificationBell() {
                   <div key={notification.id} className={`flex items-start gap-3 p-3 hover:bg-muted/50 ${!notification.read ? "bg-primary/5" : ""}`}>
                     <span
                       className={`flex h-2 w-2 translate-y-1.5 rounded-full ${
-                        notification.status === "accepted" ? "bg-green-500" :
+                        notification.status === "accepted" ? "bg-primary" :
                         notification.status === "rejected" ? "bg-red-500" :
                         "bg-primary"
                       }`}
@@ -184,17 +209,14 @@ export function NotificationBell() {
 
                       {notification.status === "pending" && (
                         <div className="flex gap-2 mt-2">
-                          <Button size="sm" variant="outline" className="h-8 text-xs bg-green-50 hover:bg-green-100 text-green-700 border-green-200" onClick={() => handleAccept(notification.id)}>
-                            Accept
+                          <Button size="sm" variant="outline" className="h-8 text-xs bg-primary hover:bg-blue-100 text-white border-primary" onClick={() => handleAccept(notification.id)}>
+                            Ok
                           </Button>
-                          <Button size="sm" variant="outline" className="h-8 text-xs bg-red-50 hover:bg-red-100 text-red-700 border-red-200" onClick={() => handleReject(notification.id)}>
-                            Reject
-                          </Button>
+                          
                         </div>
                       )}
 
-                      {notification.status === "accepted" && <Badge variant="outline" className="w-fit mt-1 text-xs bg-green-50 text-green-700 border-green-200">Accepted</Badge>}
-                      {notification.status === "rejected" && <Badge variant="outline" className="w-fit mt-1 text-xs bg-red-50 text-red-700 border-red-200">Rejected</Badge>}
+                      {notification.status === "accepted" && <Badge variant="outline" className="w-fit mt-1 text-xs bg-primary text-white border-primary">Complaint processing...</Badge>}
                     </div>
                   </div>
                 ))}
