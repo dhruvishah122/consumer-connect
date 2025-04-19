@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Home, Info, FileText, Search, Lock } from 'lucide-react';
+import weblogo from '../logos/weblogo.png';
+import ccname from '../logos/ccname.png'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  
+  const [showDropdown, setShowDropdown] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -21,11 +24,20 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         {/* Logo placeholder */}
-        <div className="flex-shrink-0 w-36">
-          <div className="bg-gray-200 rounded h-10 w-full flex items-center justify-center text-gray-500">
-            Logo
-          </div>
+        <div className="flex items-center space-x-3">
+          <img
+            src={weblogo}
+            alt="Logo Icon"
+            className="h-22 w-20" // adjust size if needed
+          />
+          <img
+            src={ccname}
+            alt="Logo Text"
+            className="h-8 w-auto" // logo name like "ConsumerConnect"
+          /> 
         </div>
+
+
         
         {/* Navigation Links - centered */}
         <div className="flex items-center justify-center flex-1">
@@ -60,10 +72,38 @@ const Navbar = () => {
           </div>
           
           {/* Login Button */}
-          <button className="flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg px-4 py-2 transition-colors">
-            <Lock size={16} />
-            <span>Login</span>
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg px-4 py-2 transition-colors"
+            >
+              <Lock size={16} />
+              <span>Login</span>
+            </button>
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+                <ul className="text-sm text-gray-700">
+                  {[
+                    'BranchLogin',
+                    'BranchSignUp',
+                    'CustomerLogin',
+                    'CustomerSignUp',
+                    'OrgLogin',
+                    'OrgSignUp',
+                  ].map((label) => (
+                    <li key={label}>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
         
         {/* Mobile Menu Button */}

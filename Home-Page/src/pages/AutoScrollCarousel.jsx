@@ -108,7 +108,7 @@ const AutoScrollCarousel = () => {
             carouselRef.current.scrollBy({ left: 320, behavior: 'smooth' });
           }
         }
-      }, 1500); // Scroll every 3 seconds
+      }, 1200); // Scroll every 3 seconds
     };
     
     // Start auto-scrolling
