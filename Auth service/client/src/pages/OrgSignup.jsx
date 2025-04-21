@@ -68,6 +68,9 @@ export function OrgSignup({ className, ...props }) {
 
       const result = await response.json();
       console.log("Response from API:", result);
+      window.location.href = "http://localhost:5179";  
+
+      // window.location.href = `http://localhost:5177/${result.email}`;
     } catch (error) {
       console.error("Error connecting to API:", error);
     }

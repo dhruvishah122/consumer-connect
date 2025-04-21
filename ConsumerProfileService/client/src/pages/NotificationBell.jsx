@@ -144,6 +144,7 @@ export function NotificationBell() {
   const handleAccept =async (id) => {
     setNotifications((prev) =>
       prev.map(async (notification) => {
+        console.log(notification);
         if (notification.id === id) {
           const response = await fetch(`http://localhost:8083/customer/notifications/accept/${notification.id}`, {
             method: "GET",
@@ -158,6 +159,7 @@ export function NotificationBell() {
       })
     );
   };
+  
 
   const handleReject = (id) => {
     setNotifications((prev) =>

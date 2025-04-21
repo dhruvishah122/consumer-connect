@@ -51,8 +51,8 @@ const Header = ({ className, fixed, children, ...props }) => {
       {/* Navigation Links (right after the separator) */}
       <nav className="flex gap-6 text-lg font-medium">
   <Link to="/overview" className="text-gray-500 hover:text-black transition-colors">Home</Link>
-  <Link to="/customers" className="text-gray-500 hover:text-black transition-colors">Explore posts</Link>
-  <Link to="/products" className="text-gray-500 hover:text-black transition-colors">Brands</Link>
+  <Link to={`${email}/postList`} className="text-gray-500 hover:text-black transition-colors">Explore posts</Link>
+  <Link to="http://localhost:5178" className="text-gray-500 hover:text-black transition-colors">Brands</Link>
   <Link to={`/${email}/feedbacks`} className="text-gray-500 hover:text-black transition-colors">
   Feedbacks
 </Link></nav>
@@ -67,7 +67,9 @@ const Header = ({ className, fixed, children, ...props }) => {
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
   <SearchBar className="mt-[-3px]"/>&nbsp;&nbsp;&nbsp;&nbsp;
- <button> <LogOut className="text-gray"/>Logout</button>
+  <button onClick={() => (window.location.href = "http://localhost:5179")}>
+  <LogOut className="text-gray" /> Logout
+</button>
 </div>
    
   

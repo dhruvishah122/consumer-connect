@@ -42,16 +42,19 @@ const authDB = mongoose.connect("mongodb+srv://maahivaghela05:Ma82810La@consumer
 
 
 // ✅ Define models for each database
-const Post = postDB.model("Post", new mongoose.Schema({
+const postSchema = new mongoose.Schema({
     privateID: String,
     customerEmail: String,
     postText: String,
     imageUrl: String,
-    postAuthStatus:Boolean
-}));
+    postAuthStatus: Boolean
+}, { timestamps: true }); // <-- correct place for timestamps
+
+const Post = postDB.model("Post", postSchema);
+
 async function savePost(privateID, customerEmail, postText, imageUrl, postAuthStatus) {
     try {
-        const newPost = new Post({ privateID, customerEmail, postText, imageUrl, postAuthStatus });
+        const newPost = new Post({privateID, customerEmail, postText, imageUrl, postAuthStatus });
        const savedPost=
         await newPost.save();
         console.log("✅ Post saved successfully!");

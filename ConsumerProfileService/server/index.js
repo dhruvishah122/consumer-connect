@@ -6,7 +6,7 @@ const app = express();
 const PORT = 8083;
 
 // Middleware
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
@@ -157,10 +157,11 @@ app.get("/:privateID/customerReview", async (req, res) => {
 app.post("/review", async (req, res) => {
   const { customerName, branchName, productDetails, rating, reviewText,email,privateID } = req.body;
   console.log(req.body);
+  console.log("review entered");
   const branch = await client1.db("Authentication").collection("bsignups").findOne({ privateID:privateID });
 
   try {
-    await client.connect();
+    await client3.connect();
     const db = client3.db("BranchProfile");
     const collection = db.collection("review");
 
@@ -176,12 +177,11 @@ app.post("/review", async (req, res) => {
     };
 
     const result = await collection.insertOne(newReview);
+    console.log(result);
     res.status(201).json("saved");
   } catch (err) {
     console.error("Error saving review:", err);
     res.status(500).json({ error: "Internal server error" });
-  } finally {
-    await client.close();
   }
 });
 app.listen(PORT, () => {

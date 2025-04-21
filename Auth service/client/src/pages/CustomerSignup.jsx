@@ -62,6 +62,7 @@ export function CustomerSignup({ className, ...props }) {
 
       const result = await response.json();
       console.log("Response from API:", result);
+      window.location.href = "http://localhost:5179";  
     } catch (error) {
       console.error("Error connecting to API:", error);
     }

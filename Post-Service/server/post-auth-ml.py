@@ -139,7 +139,6 @@ def extract_image_details(image_url):
         "Extract the following details from this receipt in JSON format (not as a string):\n"
         "- Date\n- Store Name\n- List of Products with each product having Name, Amount, Quantity\n- Total Amount"
     )
-
     response = genai.GenerativeModel("models/gemini-2.0-flash").generate_content([img_prompt, image])
 
     try:

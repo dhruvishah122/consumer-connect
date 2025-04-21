@@ -59,7 +59,7 @@ const Header = ({ className, fixed, children, ...props }) => {
   <Link to="/overview" className="text-gray-500 hover:text-black transition-colors">Home</Link>
   <Link to={`/${branchID}/postList`} className="text-gray-500 hover:text-black transition-colors"> Explore posts
   </Link>
-  <Link to="/products" className="text-gray-500 hover:text-black transition-colors">Brands</Link>
+  <Link to="http://localhost:5178" className="text-gray-500 hover:text-black transition-colors">Brands</Link>
 <Link to={`/${branchID}/feedbacks`} className="text-gray-500 hover:text-black transition-colors">
   Feedbacks
 </Link></nav>
@@ -67,15 +67,13 @@ const Header = ({ className, fixed, children, ...props }) => {
 <div className="flex justify-end">
   <DoPost />&nbsp;&nbsp;
   <NotificationBell className="h-[30px] w-[30px] mt-2"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
   <SearchBar className="mt-[-3px]"/>&nbsp;&nbsp;&nbsp;&nbsp;
- <button> <LogOut className="text-gray"/>Logout</button>
+    <button onClick={() => (window.location.href = "http://localhost:5179")}>
+    <LogOut className="text-gray" /> Logout
+  </button>
 </div>
-   
-  
     {children}
   </header>
-  
   
   );
 };

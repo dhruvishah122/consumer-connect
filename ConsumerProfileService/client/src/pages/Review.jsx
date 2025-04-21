@@ -89,7 +89,7 @@ console.log(payload);
   };
 
   return (
-    <div className="w-full p-4 bg-gray-50 dark:bg-gray-900">
+    <div className="w-full p-4 ml-32 bg-gray-50 dark:bg-gray-900 rounded-md shadow border border-gray-200 dark:border-gray-700">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Rate brands</h2>
         <div className="flex gap-2">

@@ -14,9 +14,10 @@ router.post("/", async (req, res) => {
 //   res.json({ message: "Login received!" });
     try {
         const { privateID, password } = req.body;
+        console.log(privateID, password);
         const user = await User.findOne({ privateID });
-        console.log("Login request received:", user);
-        if (user.privateID !== privateID) {
+        console.log("Login request received:", req.body);
+        if (!user) {
             console.log("something went wrong");
             return res.status(401).json({ message: "Invalid credentials" });
         }

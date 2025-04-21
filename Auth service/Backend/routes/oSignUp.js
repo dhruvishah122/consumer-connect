@@ -37,8 +37,9 @@ router.post("/", upload.single("idProof"), async (req, res) => {
         });
         console.log(user);
         await user.save();
-
-        res.status(201).json({ message: "Org registered successfully!" });
+        window.location.href="http://localhost:5179/";
+        
+        res.status(201).json({email:email, message: "Org registered successfully!" });
     } catch (error) {
         console.error("Error during signup:", error);
         res.status(500).json({ message: "Server Error" });

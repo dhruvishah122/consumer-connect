@@ -42,7 +42,7 @@ router.post("/", upload.single("idProof"), async (req, res) => {
         });
         console.log(user);
         await user.save();
-
+        // res.redirect('http://localhost:5179');
         res.status(201).json({ message: "User registered successfully!" });
     } catch (error) {
         console.error("Error during signup:", error);

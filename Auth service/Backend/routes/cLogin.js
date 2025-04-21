@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
             console.log("something went wrong");
             return res.status(401).json({ message: "Invalid credentials" });
         }
-
+     console.log(user.password);
         bcrypt.compare(password, user.password, function(err, result){
             if(result){
                 let token = jwt.sign( { id: user._id }, "e4d1c3b7a8f9e6b5d2c1f0a3b8e7d6c4");

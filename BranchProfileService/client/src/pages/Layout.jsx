@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import  {BranchChat}  from "../../../../Chat service/client/src/pages/BranchChat";
 import { Outlet } from "react-router-dom";
 import {CompanyProfileWebsite} from "./feedbacks";
+import AnalyticsSummary from "./Analytics";
+import CompanyList from "./CompanyList";
 export default function Layout({ children }) {
   
   return (
@@ -28,7 +30,9 @@ export default function Layout({ children }) {
 
                 <Route path=":branchID/" element={<CompanyProfileWebsite /> } 
                 />
-        
+                {/* <Route path="/brands" element={<CompanyList /> }/> */}
+        <Route path="/" element={<AnalyticsSummary /> } 
+                />
           </Routes> 
       {/* <main>
       

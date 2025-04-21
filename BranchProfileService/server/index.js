@@ -104,6 +104,33 @@ console.log("formatted data",formatted);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+app.get('/analytics/:privateID', async (req, res) => {
+  const privateID = req.params.privateID;
+
+  try {
+    await client1.connect();
+    const db = client1.db('Authentication');
+    const collection = db.collection('bsignups');
+
+    const user = await collection.findOne({ privateID:privateID });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      branch_name: user.branch_name,
+      location: user.location,
+      cleanlocation:user.cleanlocation,
+    });
+  } catch (err) {
+    console.error('Error fetching analytics:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await client1.close();
+  }
+});
   app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
   });

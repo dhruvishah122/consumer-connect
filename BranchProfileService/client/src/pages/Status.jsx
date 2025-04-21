@@ -213,6 +213,8 @@
 
 // export default UserTable;
 
+
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useParams } from 'react-router-dom';
@@ -224,12 +226,12 @@ const UserTable = () => {
   const [userData, setUserData] = useState([]);
 
 const privateID= useParams().privateID;
-console.log(privateID);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch(`http://localhost:8084/${privateID}/status`);
         const data = await res.json();
+        console.log("Fetched data:", data);
         setUserData(data);
       } catch (error) {
         console.error('Error fetching user data:', error);

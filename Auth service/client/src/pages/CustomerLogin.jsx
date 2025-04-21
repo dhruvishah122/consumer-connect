@@ -44,6 +44,8 @@ export function CustomerLogin({ className, ...props }) {
 
       if (response.status === 200) {
         console.log("success");
+        window.location.href=`http://localhost:5175/${email}`;
+       
       }
     } catch (err) {
       console.log("Login Error:", err.response?.data);

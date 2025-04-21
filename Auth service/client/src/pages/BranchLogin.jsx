@@ -30,7 +30,7 @@ export function BranchLogin({ className, ...props }) {
         { withCredentials: true }
       );
 
-      if (response.status === 200) {
+      if (response.status == 200) {
         window.location.href = `http://localhost:5176/${privateID}`;
       }
     } catch (err) {

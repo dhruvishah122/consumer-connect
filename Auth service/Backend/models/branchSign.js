@@ -23,9 +23,13 @@ let BSignupSchema = new mongoose.Schema({
         type: String,
         require: true,
     }, 
+    cleanlocation:{
+        type: String,
+        require: true,
+    },
     idProof:{
        data: Buffer,
-       contentType: String
+       contentType: String,
        // require: true,
     }, 
     password: { 
@@ -36,6 +40,19 @@ let BSignupSchema = new mongoose.Schema({
         type: String,
         require:true,
        
+    },
+    orgID:{
+        type: String,
+        require:true,
+       
+    },
+    shortBio:{
+        type: String,
+        require:true,
+    },
+    longBio:{
+        type: String,
+        require:true,
     },
     resetPasswordToken: {
         type: String,
@@ -56,5 +73,9 @@ let BSignupSchema = new mongoose.Schema({
 //     next();
 // });
 
-const bSignup =  mongoose.model("bSignup",BSignupSchema);
+//const bSignup =  mongoose.model("bSignup",BSignupSchema);
+//const bSignup = mongoose.model("bSignup", BSignupSchema, "branchsigns"); 
+//const bSignup = mongoose.model("bSignup", BSignupSchema);
+const bSignup = mongoose.model("bSignup", BSignupSchema, 'bsignups');
+
 module.exports= bSignup;

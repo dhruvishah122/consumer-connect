@@ -62,7 +62,7 @@ export function CustomerChat() {
     fetch(`http://localhost:5175/${email}/customer/${chatID}`)
     .then(res => res.json())
     .then(data => setMessages(data.messages))
-    .catch(err => console.error("Error fetching messages:", err));
+    .catch(err => console.error("Error fetching messages:", messages));
     // Join the chat room
     // Listen for incoming messages
     socket.emit("requestChatHistory", { chatID });
